@@ -2,17 +2,17 @@ import { Router } from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import Avatar from 'boring-avatars';
-import { normalizeColors, randomIntFromInterval } from '../utils';
+import { normalizeColors, randomColors, randomIntFromInterval } from '../utils';
 
 const router = Router();
 
-const DEFAULT_COLORS = [
-    '#92A1C6',
-    '#146A7C',
-    '#F0AB3D',
-    '#C271B4',
-    '#C20D90',
-].join(',');
+// const DEFAULT_COLORS = [
+//     '#92A1C6',
+//     '#146A7C',
+//     '#F0AB3D',
+//     '#C271B4',
+//     '#C20D90',
+// ].join(',');
 const DEFAULT_SIZE = 80;
 // const DEFAULT_VARIANT: Variant = 'beam';
 
@@ -30,8 +30,10 @@ router.get('/:variant?/:size?/:name?', (req, res) => {
     const defaultVariant = VALID_VARIANTS[randomIntFromInterval(0, 5)];
     const { variant = defaultVariant, size = DEFAULT_SIZE } = req.params;
     const name = req.query.name || req.params.name || Math.random().toString();
+
+    const defaultColors = Array.from({ length: 6 }, randomColors).join(',');
     const colors = normalizeColors(
-        req.query.colors?.toString() || DEFAULT_COLORS
+        req.query.colors?.toString() || defaultColors
     );
     const square = req.query.hasOwnProperty('square');
 
