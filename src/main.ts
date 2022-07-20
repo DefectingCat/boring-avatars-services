@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import winston from 'winston';
 import expressWinston from 'express-winston';
 import helloRouter from './routes/hello';
+import avatarsRouter from './routes/avatars';
 
 const app = express();
 const port = 3000;
@@ -23,10 +24,8 @@ app.use(
     })
 );
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
 app.use(helloRouter);
+app.use(avatarsRouter);
 
 app.use(
     expressWinston.errorLogger({
@@ -39,7 +38,7 @@ app.use(
 );
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server running on ${port}, http://localhost:${port}`);
 });
 
 // Export default
