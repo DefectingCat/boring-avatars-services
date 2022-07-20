@@ -2,6 +2,7 @@ import { Router } from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import Avatar from 'boring-avatars';
+import { normalizeColors, randomIntFromInterval } from '../utils';
 
 const router = Router();
 
@@ -13,7 +14,7 @@ const DEFAULT_COLORS = [
     '#C20D90',
 ].join(',');
 const DEFAULT_SIZE = 80;
-const DEFAULT_VARIANT: Variant = 'beam';
+// const DEFAULT_VARIANT: Variant = 'beam';
 
 type Variant = 'marble' | 'beam' | 'pixel' | 'sunset' | 'ring' | 'bauhaus';
 const VALID_VARIANTS: [Variant, Variant, Variant, Variant, Variant, Variant] = [
@@ -25,18 +26,9 @@ const VALID_VARIANTS: [Variant, Variant, Variant, Variant, Variant, Variant] = [
     'bauhaus',
 ];
 
-function normalizeColors(colors: string) {
-    const colorPalette = colors.split(',');
-
-    if (colorPalette.length) {
-        return colorPalette.map((color) =>
-            color.startsWith('#') ? color : `#${color}`
-        );
-    }
-}
-
 router.get('/:variant?/:size?/:name?', (req, res) => {
-    const { variant = DEFAULT_VARIANT, size = DEFAULT_SIZE } = req.params;
+    const defaultVariant = VALID_VARIANTS[randomIntFromInterval(0, 5)];
+    const { variant = defaultVariant, size = DEFAULT_SIZE } = req.params;
     const name = req.query.name || req.params.name || Math.random().toString();
     const colors = normalizeColors(
         req.query.colors?.toString() || DEFAULT_COLORS
