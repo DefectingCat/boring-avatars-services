@@ -2,7 +2,12 @@ import { Router } from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import Avatar from 'boring-avatars';
-import { normalizeColors, randomColors, randomIntFromInterval } from '../utils';
+import {
+    generateString,
+    normalizeColors,
+    randomColors,
+    randomIntFromInterval,
+} from '../utils';
 
 const router = Router();
 
@@ -29,7 +34,7 @@ const VALID_VARIANTS: [Variant, Variant, Variant, Variant, Variant, Variant] = [
 router.get('/:variant?/:size?/:name?', (req, res) => {
     const defaultVariant = VALID_VARIANTS[randomIntFromInterval(0, 5)];
     const { variant = defaultVariant, size = DEFAULT_SIZE } = req.params;
-    const name = req.query.name || req.params.name || Math.random().toString();
+    const name = req.query.name || req.params.name || generateString(24);
 
     const defaultColors = Array.from({ length: 6 }, randomColors).join(',');
     const colors = normalizeColors(
