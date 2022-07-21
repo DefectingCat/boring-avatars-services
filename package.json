@@ -1,10 +1,19 @@
 {
-    "name": "express-template",
+    "name": "boring-avatars-services",
     "version": "1.0.0",
     "main": "index.js",
-    "repository": "https://github.com/DefectingCat/express-template.git",
+    "repository": "https://github.com/DefectingCat/boring-avatars-services.git",
     "author": "DefectingCat <i@defect.ink>",
     "license": "MIT",
+    "bin": "./build/main.js",
+    "pkg": {
+        "scripts": "build/**/*.js",
+        "targets": [
+            "node16-linux-x64",
+            "node16-win-x64"
+        ],
+        "outputPath": "dist"
+    },
     "devDependencies": {
         "@types/express": "^4.17.13",
         "@types/node": "^18.0.6",
@@ -27,6 +36,7 @@
     "scripts": {
         "dev": "nodemon src/main.ts",
         "build": "tsc",
-        "start": "node build/main.js"
+        "start": "node build/main.js",
+        "pkg": "pkg ."
     }
 }
