@@ -4,7 +4,9 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && apk update --no-cache \
     && apk upgrade --no-cache \
     && apk add --no-cache libc6-compat \
-    && yarn config set registry https://registry.npmmirror.com 
+    && yarn config set registry https://registry.npmmirror.com \
+    && yarn config set sharp_binary_host "https://npmmirror.com/mirrors/sharp" \
+    && yarn config set sharp_libvips_binary_host "https://npmmirror.com/mirrors/sharp-libvips"
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
